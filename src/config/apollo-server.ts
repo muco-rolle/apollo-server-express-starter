@@ -1,9 +1,24 @@
 import { ApolloServer } from 'apollo-server-express';
+import { makeExecutableSchema } from 'graphql-tools';
+import { applyMiddleware } from 'graphql-middleware';
+import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
+
 import { SchemaType, ResolverType } from '@types';
+import { middlewares } from '@middlewares';
 
 export const createApolloServer = (
 	typeDefs: SchemaType,
-	resolver: ResolverType
+	resolvers: ResolverType
 ) => {
-	return new ApolloServer({ typeDefs, resolvers: resolver });
+	const schema = makeExecutableSchema({
+		typeDefs: [DIRECTIVES, typeDefs],
+		resolvers
+	});
+	const schemaWithMiddlewares = applyMiddleware(schema, ...middlewares);
+
+	return new ApolloServer({
+		typeDefs,
+		resolvers: resolvers,
+		schema: schemaWithMiddlewares
+	});
 };
