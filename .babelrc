@@ -6,7 +6,19 @@
 			"module-resolver",
 			{
 				"root": ["."],
-				"alias": {},
+				"alias": {
+					"@modules/resolvers": ["./src/modules/index.resolvers.ts"],
+					"@modules/models": ["./src/modules/index.models.ts"],
+					"@modules/graphql-schemas": [
+						"./src/modules/index.graphql-schemas.ts"
+					],
+
+					"@config": ["./src/config"],
+					"@directives": ["./src/directives"],
+					"@middlewares": ["./src/middlewares"],
+					"@types": ["./src/types"],
+					"@utils": ["./src/utils"]
+				},
 				"extensions": [".js", ".jsx", ".ts", ".es", ".es6", ".mjs"]
 			}
 		],
